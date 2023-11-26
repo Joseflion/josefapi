@@ -1,4 +1,4 @@
-var typeTemplate = `<span class="font-light inline-block" style="font-size:10px;">{{type}}</span>`
+var typeTemplate = `<span class="font-light inline-block" style="font-size:10px;">{{type}}</span>`;
 var template = `
 <div class="plugin flex justify-start flex-col items-center p-4 bg-slate-900 max-h-80 border-black border-2 rounded drop-shadow-md">
     <div class="image">
@@ -17,27 +17,25 @@ var template = `
             {{description}}
         </span>
     </div>
-</div>`
+</div>`;
 
-
-
-var rawRepoUrl = "https://raw.githubusercontent.com/ImZaw/cloudstream-extensions-arabic/builds/repo.json"
+var rawRepoUrl = "https://raw.githubusercontent.com/Joseflion/test1/builds/repo.json";
 const urlSearchParams = new URLSearchParams(window.location.search);
-if(urlSearchParams.get("url")) rawRepoUrl = urlSearchParams.get("url")
-$.getJSON( rawRepoUrl , function( data ) {
-    var title = data.name
+if(urlSearchParams.get("url")) rawRepoUrl = urlSearchParams.get("url");
+$.getJSON(rawRepoUrl, function(data) {
+    var title = data.name;
     data.pluginLists.forEach(url => {
-        $.getJSON( url , function( data ) {
-            $("#title").html(title + ` <span style="display:block;"><b>( ${data.length} Plugins )</b></span>`)
+        $.getJSON(url, function(data) {
+            $("#title").html(title + ` <span style="display:block;"><b>( ${data.length} Plugins )</b></span>`);
             data.forEach(plugin => {
                 var statusColor;
-                var types = plugin.tvTypes?.map(tvType=> {
-                    var whatToReturn = typeTemplate.replace("{{type}}", tvType)
-                    if(tvType == "NSFW") whatToReturn = whatToReturn.replace("{{style}}", "color: red;font-size: 10px;font-weight: bold;")
-                    else whatToReturn = whatToReturn.replace("{{style}}", "font-size: 10px;")
-                    return whatToReturn
-                })
-                if(plugin?.status == 0) statusColor = "red"; else if(plugin?.status == 1) statusColor = "green"; else statusColor = "yellow"
+                var types = plugin.tvTypes?.map(tvType => {
+                    var whatToReturn = typeTemplate.replace("{{type}}", tvType);
+                    if(tvType == "NSFW") whatToReturn = whatToReturn.replace("{{style}}", "color: red;font-size: 10px;font-weight: bold;");
+                    else whatToReturn = whatToReturn.replace("{{style}}", "font-size: 10px;");
+                    return whatToReturn;
+                });
+                if(plugin?.status == 0) statusColor = "red"; else if(plugin?.status == 1) statusColor = "green"; else statusColor = "yellow";
                 $(".plugins > #grid").append(
                     template
                     .replace("{{icon_url}}", plugin.iconUrl?.replace("%size%", "128") ?? "https://cdn0.iconfinder.com/data/icons/file-management-system-flat/32/file_managemenr_system_icon_set_flat_style-14-512.png")
@@ -49,8 +47,8 @@ $.getJSON( rawRepoUrl , function( data ) {
                     .replace("{{version}}", plugin?.version)
                     .replace("{{types}}", types?.join("\n") ?? "")
                     .replace("{{description}}", plugin?.description ?? "")
-                    )
-            })
-        })
+                );
+            });
+        });
     });
 });
